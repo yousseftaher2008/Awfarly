@@ -1,5 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/shared/icon_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,34 +27,113 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.favorite;
+                currentPage.value = Page.home;
+                Get.toNamed(Routes.HOME);
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconBadge(
-                    icon: Obx(
-                      () => Icon(
-                        currentPage.value == Page.favorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: currentPage.value == Page.favorite
+              child: Obx(
+                () => Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Icon(
+                        currentPage.value == Page.home
+                            ? Icons.home
+                            : Icons.home_outlined,
+                        color: currentPage.value == Page.home
                             ? enableIconColor
                             : secondaryIconColor,
                         size: 35,
                       ),
                     ),
-                    value: "0",
-                    color: const Color(0xFFF0BF41),
+                    const Spacer(),
+                    FittedBox(
+                      child: Text(
+                        "الرئيسية",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: currentPage.value == Page.home
+                              ? enableIconColor
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 75,
+            child: GestureDetector(
+              onTap: () {
+                currentPage.value = Page.orders;
+                // Get.toNamed(Routes.ORDERS);
+              },
+              child: Obx(
+                () => Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Icon(
+                        Icons.card_travel,
+                        color: currentPage.value == Page.orders
+                            ? enableIconColor
+                            : secondaryIconColor,
+                        size: 35,
+                      ),
+                    ),
+                    const Spacer(),
+                    FittedBox(
+                      child: Text(
+                        "مشترياتي",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: currentPage.value == Page.orders
+                              ? enableIconColor
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 75,
+            child: GestureDetector(
+              onTap: () {
+                currentPage.value = Page.cart;
+                Get.toNamed(Routes.CART);
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconBadge(
+                    icon: Obx(
+                      () => Icon(
+                        currentPage.value == Page.cart
+                            ? Icons.shopping_cart
+                            : Icons.shopping_cart_outlined,
+                        color: currentPage.value == Page.cart
+                            ? enableIconColor
+                            : secondaryIconColor,
+                        size: 35,
+                      ),
+                    ),
+                    value: "${Get.find<CartController>().productCount.value}",
+                    color: enableIconColor,
                   ),
                   const Spacer(),
                   Obx(
                     () => FittedBox(
                       child: Text(
-                        "المفضلة",
+                        "عربة التسوق",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.favorite
+                          color: currentPage.value == Page.cart
                               ? enableIconColor
                               : null,
                         ),
@@ -107,35 +187,34 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.cart;
-                Get.toNamed(Routes.CART);
+                currentPage.value = Page.favorite;
               },
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconBadge(
                     icon: Obx(
                       () => Icon(
-                        currentPage.value == Page.cart
-                            ? Icons.shopping_cart
-                            : Icons.shopping_cart_outlined,
-                        color: currentPage.value == Page.cart
+                        currentPage.value == Page.favorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: currentPage.value == Page.favorite
                             ? enableIconColor
                             : secondaryIconColor,
                         size: 35,
                       ),
                     ),
                     value: "0",
-                    color: enableIconColor,
+                    color: const Color(0xFFF0BF41),
                   ),
                   const Spacer(),
                   Obx(
                     () => FittedBox(
                       child: Text(
-                        "عربة التسوق",
+                        "المفضلة",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.cart
+                          color: currentPage.value == Page.favorite
                               ? enableIconColor
                               : null,
                         ),
@@ -143,84 +222,6 @@ class AppBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                currentPage.value = Page.orders;
-                // Get.toNamed(Routes.ORDERS);
-              },
-              child: Obx(
-                () => Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        Icons.card_travel,
-                        color: currentPage.value == Page.orders
-                            ? enableIconColor
-                            : secondaryIconColor,
-                        size: 35,
-                      ),
-                    ),
-                    const Spacer(),
-                    FittedBox(
-                      child: Text(
-                        "مشترياتي",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.orders
-                              ? enableIconColor
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                currentPage.value = Page.home;
-                Get.toNamed(Routes.HOME);
-              },
-              child: Obx(
-                () => Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        currentPage.value == Page.home
-                            ? Icons.home
-                            : Icons.home_outlined,
-                        color: currentPage.value == Page.home
-                            ? enableIconColor
-                            : secondaryIconColor,
-                        size: 35,
-                      ),
-                    ),
-                    const Spacer(),
-                    FittedBox(
-                      child: Text(
-                        "الرئيسية",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.home
-                              ? enableIconColor
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ),

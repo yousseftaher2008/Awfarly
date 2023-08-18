@@ -15,6 +15,7 @@ void main() {
   runApp(
     GetMaterialApp(
       title: "Application",
+      textDirection: TextDirection.rtl,
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
