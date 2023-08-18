@@ -1,0 +1,179 @@
+{
+    "editor.largeFileOptimizations": false,
+    "files.autoGuessEncoding": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "vim.foldfix": true,
+    "zenMode.hideLineNumbers": false,
+    "editor.stickyScroll.enabled": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["ctrl+l"],
+            "commands": ["workbench.action.nextEditor"]
+        },
+        {
+            "before": ["ctrl+h"],
+            "commands": ["workbench.action.previousEditor"]
+        }
+    ],
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [">"],
+            "after": [">", "g", "v"]
+        },
+        {
+            "before": ["<"],
+            "after": ["<", "g", "v"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        
+        {
+            "before": ["<leader>", "w"],
+            "commands": ["workbench.action.splitEditor"]
+        },
+        {
+            "before": ["<leader>", "e"],
+            "commands": ["workbench.action.toggleSidebarVisibility"]
+        },
+        {
+            "before": ["<leader>", "f"],
+            "commands": ["revealInExplorer"]
+        }
+    ],
+    "vim.camelCaseMotion.enable": true,
+    "vim.leader": " ",
+    "editor.tabSize": 2,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.cursorSurroundingLines": 8,
+    "editor.fontSize": 16,
+    "editor.renderWhitespace": "none",
+    "explorer.confirmDelete": false,
+    "scss.completion.completePropertyWithSemicolon": false,
+    "css.completion.completePropertyWithSemicolon": false,
+    "editor.autoClosingBrackets": "always",
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+    "workbench.sideBar.location": "right",
+    "editor.linkedEditing": true,
+    "workbench.startupEditor": "none",
+    "editor.lineNumbers": "relative",
+    "editor.guides.indentation": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "cSpell.userWords": [
+        "NGRX",
+        "Prefetching",
+        "signin"
+    ],
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "window.menuBarVisibility": "toggle",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "cSpell.dictionaryDefinitions": [],
+    "cSpell.language": "en, ar",
+    "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on"
+    },
+    "editor.inlineSuggest.enabled": true,
+    "todohighlight.isEnable": true,
+    "mssql.connections": [
+        {
+            "server": "localhost,1433",
+            "database": "ERPDBModules",
+            "authenticationType": "SqlLogin",
+            "user": "SA",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "erp",
+            "encrypt": "Mandatory",
+            "trustServerCertificate": true,
+            "connectTimeout": 15,
+            "commandTimeout": 30,
+            "applicationName": "vscode-mssql"
+        },
+        {
+            "server": "174.138.191.135",
+            "database": "CarsDb-Staging",
+            "authenticationType": "SqlLogin",
+            "user": "sa",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "carDbStaging",
+            "encrypt": "Mandatory",
+            "trustServerCertificate": true,
+            "connectTimeout": 15,
+            "commandTimeout": 30,
+            "applicationName": "vscode-mssql"
+        },
+        {
+            "server": "174.138.191.135",
+            "database": "CarsDb-staging-Clone",
+            "authenticationType": "SqlLogin",
+            "user": "sa",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "carDbClone",
+            "encrypt": "Mandatory",
+            "trustServerCertificate": true,
+            "connectTimeout": 15,
+            "commandTimeout": 30,
+            "applicationName": "vscode-mssql"
+        },
+        {
+            "server": "localhost,1433",
+            "database": "",
+            "authenticationType": "SqlLogin",
+            "user": "sa",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "localhost",
+            "encrypt": "Mandatory",
+            "trustServerCertificate": true,
+            "connectTimeout": 15,
+            "commandTimeout": 30,
+            "applicationName": "vscode-mssql"
+        }
+    ],
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "cSpell.enableFiletypes": [
+        "todo"
+    ],
+    "workbench.colorTheme": "Winter is Coming (Dark Blue)"
+}

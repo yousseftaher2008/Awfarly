@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks
+//TODO: change the icons and size to the wanted ones
 
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/shared/icon_badge.dart';
@@ -123,7 +123,8 @@ class AppBottomSheet extends StatelessWidget {
                         size: 35,
                       ),
                     ),
-                    value: "${Get.find<CartController>().productCount.value}",
+                    value:
+                        "${Get.find<CartController>().selectedProducts.length}",
                     color: enableIconColor,
                   ),
                   const Spacer(),
