@@ -3,9 +3,9 @@
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/shared/icon_badge.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../modules/cart/views/widgets/app_bar.dart';
 import '../routes/app_pages.dart';
 import 'styles/colors.dart';
 
@@ -33,7 +33,7 @@ class AppBottomSheet extends StatelessWidget {
           ),
         ],
       ),
-      height: 75,
+      width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
@@ -52,11 +52,9 @@ class AppBottomSheet extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: currentPage.value == Page.home
-                          ? const SvgPicture.assets(
-                              "assets/icons/home_filled.svg")
-                          : const SvgPicture.assets("assets/icons/home.svg"),
+                          ? SvgPicture.asset("assets/icons/home_filled.svg")
+                          : SvgPicture.asset("assets/icons/home.svg"),
                     ),
-                    const Spacer(),
                     FittedBox(
                       child: Text(
                         "الرئيسية",
@@ -87,9 +85,8 @@ class AppBottomSheet extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: currentPage.value == Page.orders
-                          ? const SvgPicture.assets(
-                              "assets/icons/order_filled.svg")
-                          : const SvgPicture.assets("assets/icons/order.svg"),
+                          ? SvgPicture.asset("assets/icons/order_filled.svg")
+                          : SvgPicture.asset("assets/icons/order.svg"),
                     ),
                     const Spacer(),
                     FittedBox(
@@ -127,11 +124,11 @@ class AppBottomSheet extends StatelessWidget {
                         color: currentPage.value == Page.cart
                             ? enableIconColor
                             : secondaryIconColor,
-                        size: 35,
+                        size: 25,
                       ),
                     ),
                     value:
-                        "${Get.find<CartController>().selectedProducts.length}",
+                        "${Get.find<CartController>().selectedProducts.value.length}",
                     color: enableIconColor,
                   ),
                   const Spacer(),
@@ -171,9 +168,8 @@ class AppBottomSheet extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: currentPage.value == Page.wallet
-                          ? const SvgPicture.assets(
-                              "assets/icons/wallet_filled.svg")
-                          : const SvgPicture.assets("assets/icons/wallet.svg"),
+                          ? SvgPicture.asset("assets/icons/wallet_filled.svg")
+                          : SvgPicture.asset("assets/icons/wallet.svg"),
                     ),
                     const Spacer(),
                     FittedBox(
@@ -210,7 +206,7 @@ class AppBottomSheet extends StatelessWidget {
                         color: currentPage.value == Page.favorite
                             ? enableIconColor
                             : secondaryIconColor,
-                        size: 35,
+                        size: 25,
                       ),
                     ),
                     value: "0",

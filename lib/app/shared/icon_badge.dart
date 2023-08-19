@@ -31,11 +31,11 @@ class IconBadge extends StatelessWidget {
               ),
               height: 25,
               width: 25,
-              child: const FittedBox(
+              child: FittedBox(
                 child: Text(
-                  "0",
+                  value.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),

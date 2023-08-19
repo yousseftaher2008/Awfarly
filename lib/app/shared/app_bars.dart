@@ -5,7 +5,8 @@ import 'styles/colors.dart';
 
 double _pageHeight = Get.size.height;
 Widget firstAppBar(Widget child) => Container(
-      height: _pageHeight / 4,
+      height: _pageHeight / 5 + 30,
+      padding: const EdgeInsets.only(top: 30),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment(1, 0),

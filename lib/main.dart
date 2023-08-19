@@ -8,8 +8,7 @@ import 'app/routes/app_pages.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.blue, // navigation bar color
-      statusBarColor: Colors.pink, // status bar color
+      statusBarColor: Colors.transparent, // status bar color
     ),
   );
   runApp(

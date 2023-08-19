@@ -4,7 +4,16 @@ import 'package:get/get.dart';
 import '../models/products.dart';
 
 class CartController extends GetxController {
-  final RxList<Product> selectedProducts = RxList();
+  final RxList<Product> selectedProducts = [
+    Product(
+      id: "p1",
+      name: "first product",
+      description: "this is a very good product",
+      imageUrl:
+          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fresh-hot-delicious-food-wallpaper.jpg",
+      price: 33.99,
+    )
+  ].obs;
   final RxList<Product> products = RxList();
   final RxBool isSearching = false.obs;
   final TextEditingController searchController = TextEditingController();
