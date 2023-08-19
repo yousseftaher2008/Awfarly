@@ -5,6 +5,7 @@ import 'package:awfarly/app/shared/icon_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../modules/cart/views/widgets/app_bar.dart';
 import '../routes/app_pages.dart';
 import 'styles/colors.dart';
 
@@ -17,7 +18,21 @@ class AppBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xffffffff),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x3f000000),
+            offset: Offset(0, 4),
+            blurRadius: 8,
+          ),
+        ],
+      ),
       height: 75,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -36,15 +51,10 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        currentPage.value == Page.home
-                            ? Icons.home
-                            : Icons.home_outlined,
-                        color: currentPage.value == Page.home
-                            ? enableIconColor
-                            : secondaryIconColor,
-                        size: 35,
-                      ),
+                      child: currentPage.value == Page.home
+                          ? const SvgPicture.assets(
+                              "assets/icons/home_filled.svg")
+                          : const SvgPicture.assets("assets/icons/home.svg"),
                     ),
                     const Spacer(),
                     FittedBox(
@@ -76,13 +86,10 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        Icons.card_travel,
-                        color: currentPage.value == Page.orders
-                            ? enableIconColor
-                            : secondaryIconColor,
-                        size: 35,
-                      ),
+                      child: currentPage.value == Page.orders
+                          ? const SvgPicture.assets(
+                              "assets/icons/order_filled.svg")
+                          : const SvgPicture.assets("assets/icons/order.svg"),
                     ),
                     const Spacer(),
                     FittedBox(
@@ -151,6 +158,10 @@ class AppBottomSheet extends StatelessWidget {
               onTap: () {
                 currentPage.value = Page.wallet;
                 // Get.toNamed(Routes.WALLET);
+                /*
+              
+
+               */
               },
               child: Obx(
                 () => Column(
@@ -159,13 +170,10 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        Icons.credit_card,
-                        color: currentPage.value == Page.wallet
-                            ? enableIconColor
-                            : secondaryIconColor,
-                        size: 35,
-                      ),
+                      child: currentPage.value == Page.wallet
+                          ? const SvgPicture.assets(
+                              "assets/icons/wallet_filled.svg")
+                          : const SvgPicture.assets("assets/icons/wallet.svg"),
                     ),
                     const Spacer(),
                     FittedBox(

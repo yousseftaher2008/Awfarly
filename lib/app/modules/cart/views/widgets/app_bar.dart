@@ -1,5 +1,3 @@
-import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
-
 import '../../../../shared/app_bars.dart';
 import '../../../../shared/users_image.dart';
 import '../../controllers/cart_controller.dart';
@@ -47,13 +45,13 @@ class CartFirstAppBar extends GetView<CartController> {
                           // TODO: searching  for the current element
                         }
                       },
-                      icon: const Icon(FontAwesome.search),
+                      icon: const SvgPicture.assets("assets/icons/search.png"),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
                         // TODO: open the microphone
                       },
-                      icon: const Icon(FontAwesome.microphone),
+                      icon: const SvgPicture.assets("assets/icons/mic.svg"),
                     ),
                   ),
                 ),
@@ -62,15 +60,10 @@ class CartFirstAppBar extends GetView<CartController> {
           ),
         ),
         IconButton(
-          onPressed: () {
-            // TODO: check the qr_code
-          },
-          icon: const Icon(
-            Icons.qr_code_scanner,
-            color: Colors.white,
-            size: 40,
-          ),
-        )
+            onPressed: () {
+              // TODO: check the qr_code
+            },
+            icon: const SvgPicture.assets("assets/icons/qr_code.svg"))
       ],
     );
 
@@ -103,14 +96,16 @@ class CartFirstAppBar extends GetView<CartController> {
                             ),
                           ),
                         ),
-                        Obx(() => Text(
-                              "${controller.selectedProducts} منتج",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ))
+                        Obx(
+                          () => Text(
+                            "${controller.selectedProducts} منتج",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -118,5 +113,14 @@ class CartFirstAppBar extends GetView<CartController> {
               ),
             ),
     );
+  }
+}
+
+class SvgPicture extends Widget {
+  const SvgPicture.assets(String assetUrl, {super.key});
+
+  @override
+  Element createElement() {
+    throw UnimplementedError();
   }
 }
