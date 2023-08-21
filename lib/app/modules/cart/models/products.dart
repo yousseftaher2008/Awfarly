@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class Product {
   final String id, name, description, imageUrl;
-  final double price;
+  final double priceOne, priceTwo;
   final RxInt count = 1.obs;
 
   Product({
@@ -10,6 +10,7 @@ class Product {
     required this.name,
     required this.description,
     required this.imageUrl,
-    required this.price,
+    required this.priceOne,
+    required this.priceTwo,
   });
 }

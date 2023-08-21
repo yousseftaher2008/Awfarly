@@ -1,5 +1,3 @@
-//TODO: change the icons and size to the wanted ones
-
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/shared/icon_badge.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../routes/app_pages.dart';
-import 'styles/colors.dart';
+import '../constants/styles/colors.dart';
 
 enum Page { home, orders, cart, wallet, favorite }
 
@@ -18,6 +16,8 @@ class AppBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.find<CartController>();
+    // final CartController _favoritesController = Get.find<FavoritesController>();
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xffffffff),
@@ -42,8 +42,10 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.home;
-                Get.toNamed(Routes.HOME);
+                if (currentPage.value != Page.home) {
+                  currentPage.value = Page.home;
+                  Get.offAllNamed(Routes.HOME);
+                }
               },
               child: Obx(
                 () => Column(
@@ -75,8 +77,10 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.orders;
-                // Get.toNamed(Routes.ORDERS);
+                if (currentPage.value != Page.orders) {
+                  currentPage.value = Page.orders;
+                  // Get.OffAllNamed(Routes.ORDERS);
+                }
               },
               child: Obx(
                 () => Column(
@@ -109,15 +113,17 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.cart;
-                Get.toNamed(Routes.CART);
+                if (currentPage.value != Page.cart) {
+                  currentPage.value = Page.cart;
+                  Get.offAllNamed(Routes.CART);
+                }
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconBadge(
-                    icon: Obx(
-                      () => Icon(
+                  Obx(
+                    () => IconBadge(
+                      icon: Icon(
                         currentPage.value == Page.cart
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_outlined,
@@ -126,10 +132,9 @@ class AppBottomSheet extends StatelessWidget {
                             : secondaryIconColor,
                         size: 25,
                       ),
+                      value: "${cartController.selectedProducts.length}",
+                      color: enableIconColor,
                     ),
-                    value:
-                        "${Get.find<CartController>().selectedProducts.value.length}",
-                    color: enableIconColor,
                   ),
                   const Spacer(),
                   Obx(
@@ -153,12 +158,10 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.wallet;
-                // Get.toNamed(Routes.WALLET);
-                /*
-              
-
-               */
+                if (currentPage.value != Page.wallet) {
+                  currentPage.value = Page.wallet;
+                  // Get.OffAllNamed(Routes.WALLET);
+                }
               },
               child: Obx(
                 () => Column(
@@ -192,14 +195,17 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                currentPage.value = Page.favorite;
+                if (currentPage.value != Page.favorite) {
+                  currentPage.value = Page.favorite;
+                  // Get.OffAllNamed(Routes.FAVORITES);
+                }
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconBadge(
-                    icon: Obx(
-                      () => Icon(
+              child: Obx(
+                () => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconBadge(
+                      icon: Icon(
                         currentPage.value == Page.favorite
                             ? Icons.favorite
                             : Icons.favorite_border,
@@ -208,13 +214,11 @@ class AppBottomSheet extends StatelessWidget {
                             : secondaryIconColor,
                         size: 25,
                       ),
+                      value: "0",
+                      color: const Color(0xFFF0BF41),
                     ),
-                    value: "0",
-                    color: const Color(0xFFF0BF41),
-                  ),
-                  const Spacer(),
-                  Obx(
-                    () => FittedBox(
+                    const Spacer(),
+                    FittedBox(
                       child: Text(
                         "المفضلة",
                         style: TextStyle(
@@ -225,8 +229,8 @@ class AppBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,10 +1,12 @@
+import 'package:avatar_glow/avatar_glow.dart';
+import 'package:awfarly/app/modules/cart/views/screens/qr_code.dart';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../shared/app_bars.dart';
 import '../../../../shared/users_image.dart';
 import '../../controllers/cart_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CartFirstAppBar extends GetView<CartController> {
   const CartFirstAppBar({super.key});
@@ -20,10 +22,7 @@ class CartFirstAppBar extends GetView<CartController> {
             child: !controller.isSearching.value
                 ? currentUserImage()
                 : GestureDetector(
-                    onTap: () {
-                      controller.isSearching.value = false;
-                      controller.searchController.clear();
-                    },
+                    onTap: controller.backFromSearching,
                     child: const Icon(
                       Icons.arrow_back_ios,
                       size: 24,
@@ -40,9 +39,11 @@ class CartFirstAppBar extends GetView<CartController> {
                 child: ColoredBox(
                   color: Colors.white,
                   child: TextFormField(
+                    controller: controller.searchController,
                     onTap: () {
                       controller.isSearching.value = true;
                     },
+                    onChanged: controller.searchForElements,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -56,16 +57,28 @@ class CartFirstAppBar extends GetView<CartController> {
                           if (controller.isSearching.value == false) {
                             controller.isSearching.value = true;
                           } else {
-                            // TODO: searching  for the current element
+                            FocusScope.of(context).unfocus();
+                            controller.searchForElements(
+                                controller.searchController.text);
                           }
                         },
                         icon: SvgPicture.asset("assets/icons/search.svg"),
                       ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          // TODO: open the microphone
-                        },
-                        icon: SvgPicture.asset("assets/icons/mic.svg"),
+                      suffixIcon: Obx(
+                        () => AvatarGlow(
+                          endRadius: 15,
+                          animate: controller.isListing.value,
+                          duration: const Duration(milliseconds: 2000),
+                          glowColor: Colors.black,
+                          repeat: true,
+                          repeatPauseDuration:
+                              const Duration(milliseconds: 100),
+                          showTwoGlows: true,
+                          child: IconButton(
+                            onPressed: controller.micFun,
+                            icon: SvgPicture.asset("assets/icons/mic.svg"),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -74,11 +87,13 @@ class CartFirstAppBar extends GetView<CartController> {
             ),
           ),
           IconButton(
-              onPressed: () {
-                // TODO: check the qr_code
+              onPressed: () async {
+                Get.to(() => const QrCodeScreen());
+                controller.isSearching.value = true;
               },
               icon: SvgPicture.asset(
                 "assets/icons/qr_code.svg",
+                // ignore: deprecated_member_use
                 color:
                     controller.isSearching.value ? Colors.grey : Colors.white,
               ))
