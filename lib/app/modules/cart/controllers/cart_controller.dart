@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:awfarly/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -142,6 +143,15 @@ class CartController extends GetxController {
         isListing.value = false;
         _speechToText.stop();
       }
+    } on PlatformException {
+      Get.snackbar(
+        "فشل تسجيل الصوت",
+        "جهازك لا يدعم تسجيل الصوت",
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF3F9DDE),
+        margin: const EdgeInsets.all(10),
+      );
     } catch (e) {
       print(e);
     }
