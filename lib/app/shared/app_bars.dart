@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../constants/screen_dimensions.dart';
 import '../constants/styles/colors.dart';
 
 Widget firstAppBar(Widget child) => Container(
-      height: pageHeight() / 5 + 30,
-      padding: const EdgeInsets.only(top: 30),
+      height: 220.h,
+      padding: EdgeInsets.only(top: 30.h),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment(1, 0),

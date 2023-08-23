@@ -1,8 +1,8 @@
 // TODO: check the text limit and the mediaQurey
-import 'package:awfarly/app/constants/screen_dimensions.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
-import 'package:awfarly/app/modules/cart/models/products.dart';
+import 'package:awfarly/app/modules/cart/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ class CartItem extends GetView<CartController> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: asSearchProduct ? null : BorderRadius.circular(23),
+        borderRadius: asSearchProduct ? null : BorderRadius.circular(23.r),
         border: asSearchProduct
             ? const Border(
                 bottom: BorderSide(color: Color(0xFFDDDDDD), width: 2))
@@ -25,16 +25,16 @@ class CartItem extends GetView<CartController> {
         color: const Color(0xffffffff),
         boxShadow: asSearchProduct
             ? null
-            : const [
+            : [
                 BoxShadow(
-                  color: Color(0x26000000),
-                  offset: Offset(0, 6),
-                  blurRadius: 20,
+                  color: const Color(0x26000000),
+                  offset: const Offset(0, 6),
+                  blurRadius: 20.r,
                 ),
               ],
       ),
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      margin: asSearchProduct ? null : const EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      margin: asSearchProduct ? null : EdgeInsets.only(top: 10.h),
       // height: 120,
       width: double.infinity,
       child: Row(
@@ -42,14 +42,14 @@ class CartItem extends GetView<CartController> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 15.0.w),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(15.r),
               child: Image.network(
                 product.imageUrl,
                 fit: BoxFit.cover,
-                height: 70,
-                width: 70,
+                height: 65.h,
+                width: 50.w,
               ),
             ),
           ),
@@ -59,23 +59,28 @@ class CartItem extends GetView<CartController> {
               FittedBox(
                 child: Text(
                   product.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
                   textAlign: TextAlign.right,
                 ),
               ),
               // const Spacer()
               // else
               if (asSearchProduct)
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.h,
                 ),
               if (!asSearchProduct)
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "السعر يتراوح بين",
                     textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w300,
+                        color: const Color(0xFF7E828E)),
                   ),
                 ),
               Row(
@@ -85,15 +90,17 @@ class CartItem extends GetView<CartController> {
                       " ${product.priceTwo} - ${product.priceOne} ",
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        fontSize: pageWidth() < 350
-                            ? 14
-                            : pageWidth() < 450
-                                ? 16
-                                : 18,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),
-                  const Text("ر.س"),
+                  Text(
+                    "ر.س",
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w300,
+                        color: const Color(0xFF7E828E)),
+                  ),
                 ],
               )
             ],
@@ -101,7 +108,7 @@ class CartItem extends GetView<CartController> {
           const Spacer(),
           if (!asSearchProduct)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -125,17 +132,18 @@ class CartItem extends GetView<CartController> {
                         child: Obx(
                           () => Text(
                             product.count.value.toString(),
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 18.sp, fontWeight: FontWeight.w400),
                           ),
                         ),
                       ),
                       CircleAvatar(
                         backgroundColor: const Color(0xFFF3F7FC),
                         child: IconButton(
-                            onPressed: () =>
-                                controller.decreaseProductCount(product.id),
-                            icon: const Icon(Icons.remove)),
+                          onPressed: () =>
+                              controller.decreaseProductCount(product.id),
+                          icon: const Icon(Icons.remove),
+                        ),
                       ),
                     ],
                   )
@@ -143,15 +151,15 @@ class CartItem extends GetView<CartController> {
               ),
             ),
           if (!asSearchProduct)
-            const ClipRRect(
+            ClipRRect(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(2),
-                  bottomRight: Radius.circular(2)),
+                  topRight: Radius.circular(2.r),
+                  bottomRight: Radius.circular(2.r)),
               child: ColoredBox(
-                color: Color(0xFF9FCEEF),
+                color: const Color(0xFF9FCEEF),
                 child: SizedBox(
-                  width: 5,
-                  height: 50,
+                  width: 5.w,
+                  height: 50.h,
                 ),
               ),
             ),

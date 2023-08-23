@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-import '../models/products.dart';
+import '../models/product.dart';
 
 class CartController extends GetxController {
   final RxList<Product> selectedProducts = [
@@ -51,13 +51,12 @@ class CartController extends GetxController {
     ),
   ].obs;
   final RxList<Product> searchedProducts = RxList();
-
   final RxBool isSearching = false.obs;
   final RxBool isListing = false.obs;
-
   final TextEditingController searchController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   Timer? _micTimer;
+
   void addProduct({String? id, Product? product}) {
     if (id != null) {
       Product selectProduct =
@@ -66,7 +65,20 @@ class CartController extends GetxController {
         selectProduct.count.value++;
       }
     } else if (product != null) {
-      selectedProducts.add(product);
+      bool isFound = false;
+      for (final Product selectedProduct in selectedProducts) {
+        if (product.id != selectedProduct.id) continue;
+        if (selectedProduct.count.value < 99) {
+          selectedProduct.count.value++;
+          isFound = true;
+          break;
+        }
+      }
+      print("get here $isFound");
+      if (!isFound) {
+        print("get here");
+        selectedProducts.add(product);
+      }
     }
   }
 
@@ -91,24 +103,27 @@ class CartController extends GetxController {
       searchedProducts.clear();
       return;
     }
-    print(products.length);
     searchedProducts.value = products
         .where(
           (Product product) =>
               searchById ? product.id == value : product.name.contains(value),
         )
         .toList();
-    print(searchedProducts.length);
   }
 
   void checkQrCode(QRViewController qrController) {
     qrController.scannedDataStream.listen((Barcode event) {
+      print("get here");
       if (event.code != null) {
+        print("get code");
         searchForElements(event.code!, true);
-        searchedProducts.isNotEmpty
-            ? searchController.text = searchedProducts.first.name
-            : null;
-        Get.offAllNamed(Routes.CART);
+        if (searchedProducts.isNotEmpty) {
+          searchController.text = searchedProducts.first.name;
+          Get.back();
+        } else {
+          searchController.text = event.code!;
+          Get.back();
+        }
       }
     });
   }
@@ -117,10 +132,7 @@ class CartController extends GetxController {
     isSearching.value = true;
     try {
       if (!isListing.value) {
-        final bool isAvailableToListen = await _speechToText.initialize(
-          debugLogging: false,
-        );
-        print(isAvailableToListen);
+        final bool isAvailableToListen = await _speechToText.initialize();
         if (isAvailableToListen) {
           _micTimer = Timer(const Duration(seconds: 3), () {
             isListing.value = false;

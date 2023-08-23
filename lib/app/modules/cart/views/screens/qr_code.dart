@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:awfarly/app/constants/screen_dimensions.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -11,33 +12,67 @@ class QrCodeScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    double qrCodeDimensions = min(pageHeight(), pageWidth());
-    Color pageColor = Colors.black.withBlue(50).withGreen(50).withRed(50);
+    AppBar screenAppBar = AppBar(
+      backgroundColor: const Color(0xFf0A436B),
+      title: const Text("امسح QR Code"),
+    );
+    double qrCodeDimensions = min(pageHeight(), pageWidth() - 100.w);
+    double heightWithoutQrCode = ((pageHeight() -
+                MediaQuery.of(context).padding.top -
+                screenAppBar.preferredSize.height) -
+            qrCodeDimensions) /
+        2;
+    Color pageColor = Colors.black.withOpacity(0.5);
     final GlobalKey qrView = GlobalKey();
     return Scaffold(
-      backgroundColor: pageColor,
+      appBar: screenAppBar,
       body: Stack(
         children: [
           Center(
-            child: SizedBox(
-              height: qrCodeDimensions,
-              width: qrCodeDimensions,
-              child:
-                  QRView(key: qrView, onQRViewCreated: controller.checkQrCode),
+            child: QRView(key: qrView, onQRViewCreated: controller.checkQrCode),
+          ),
+          Container(
+            color: pageColor,
+            width: double.infinity,
+            height: heightWithoutQrCode,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: pageColor,
+              width: double.infinity,
+              height: heightWithoutQrCode,
             ),
           ),
-          Positioned(
-            top: 50,
-            left: 10,
-            child: IconButton(
-              onPressed: () => Get.back(),
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-                size: 30,
-                color: Colors.white,
-              ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              color: pageColor,
+              width: 50.w,
+              height: qrCodeDimensions,
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              color: pageColor,
+              width: 50.w,
+              height: qrCodeDimensions,
+            ),
+          ),
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                border: Border.all(
+                  color: const Color(0xFf0A436B),
+                  width: 4,
+                ),
+              ),
+              height: qrCodeDimensions + 10.r,
+              width: qrCodeDimensions + 10.r,
+            ),
+          ),
         ],
       ),
     );

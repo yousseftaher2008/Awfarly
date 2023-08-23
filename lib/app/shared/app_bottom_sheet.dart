@@ -80,6 +80,7 @@ class AppBottomSheet extends StatelessWidget {
                 if (currentPage.value != Page.orders) {
                   currentPage.value = Page.orders;
                   // Get.OffAllNamed(Routes.ORDERS);
+                  Get.offAllNamed(Routes.HOME);
                 }
               },
               child: Obx(
@@ -160,6 +161,7 @@ class AppBottomSheet extends StatelessWidget {
               onTap: () {
                 if (currentPage.value != Page.wallet) {
                   currentPage.value = Page.wallet;
+                  Get.offAllNamed(Routes.HOME);
                   // Get.OffAllNamed(Routes.WALLET);
                 }
               },
@@ -197,6 +199,7 @@ class AppBottomSheet extends StatelessWidget {
               onTap: () {
                 if (currentPage.value != Page.favorite) {
                   currentPage.value = Page.favorite;
+                  Get.offAllNamed(Routes.HOME);
                   // Get.OffAllNamed(Routes.FAVORITES);
                 }
               },

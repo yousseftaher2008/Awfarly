@@ -1,6 +1,7 @@
 import 'package:awfarly/app/modules/cart/views/widgets/cart_app_bar.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ class CartView extends GetView<CartController> {
               children: [
                 const CartFirstAppBar(),
                 SizedBox(
-                  height: pageHeight() - (pageHeight() / 5 + 50) - 125,
+                  height: pageHeight() - (220.h) - 150.h,
                   child: Obx(
                     () => ListView.builder(
                       padding:
@@ -50,7 +51,7 @@ class CartView extends GetView<CartController> {
                                       child: Text(
                                         "اضف منتج جديد",
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 18.sp,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary,
@@ -60,12 +61,25 @@ class CartView extends GetView<CartController> {
                                   ),
                           );
                         }
-                        return CartItem(
+                        CartItem cartItem = CartItem(
                           controller.isSearching.value
                               ? controller.searchedProducts[index]
                               : controller.selectedProducts[index],
                           asSearchProduct: controller.isSearching.value,
                         );
+                        if (controller.isSearching.value) {
+                          return GestureDetector(
+                            onTap: () {
+                              controller.addProduct(
+                                product: controller.searchedProducts[index],
+                              );
+                              controller.backFromSearching();
+                            },
+                            child: cartItem,
+                          );
+                        } else {
+                          return cartItem;
+                        }
                       },
                     ),
                   ),
@@ -74,18 +88,20 @@ class CartView extends GetView<CartController> {
                   () => !controller.isSearching.value
                       ? ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize: Size(pageWidth() - 50, 50),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
+                            fixedSize: Size(pageWidth() - 50.w, 50.h),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                          ),
                           onPressed: controller.selectedProducts.isEmpty
                               ? null
-                              : () {
-                                  print(pageWidth());
-                                },
-                          child: const Text(
+                              : () {},
+                          child: Text(
                             "عرض افضل فاتورة",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                            ),
                           ),
                         )
                       : const SizedBox(),
