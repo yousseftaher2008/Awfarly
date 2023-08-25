@@ -1,4 +1,3 @@
-import 'package:awfarly/app/shared/app_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ class HomeView extends GetView<HomeController> {
           style: TextStyle(fontSize: 20),
         ),
       ),
-      bottomSheet: AppBottomSheet(),
     );
   }
 }

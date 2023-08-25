@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:awfarly/app/constants/screen_dimensions.dart';
+import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,7 @@ class QrCodeScreen extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     AppBar screenAppBar = AppBar(
-      backgroundColor: const Color(0xFf0A436B),
+      backgroundColor: primaryColorDarkThree,
       title: const Text("امسح QR Code"),
     );
     double qrCodeDimensions = min(pageHeight(), pageWidth() - 100.w);
@@ -65,7 +66,7 @@ class QrCodeScreen extends GetView<CartController> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(
-                  color: const Color(0xFf0A436B),
+                  color: primaryColorDarkThree,
                   width: 4,
                 ),
               ),

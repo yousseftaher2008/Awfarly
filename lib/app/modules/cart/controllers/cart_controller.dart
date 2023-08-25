@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:awfarly/app/routes/app_pages.dart';
+import 'package:awfarly/app/constants/styles/colors.dart';
+import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -51,9 +52,11 @@ class CartController extends GetxController {
     ),
   ].obs;
   final RxList<Product> searchedProducts = RxList();
+  final MainController mainController = Get.find<MainController>();
   final RxBool isSearching = false.obs;
   final RxBool isListing = false.obs;
   final TextEditingController searchController = TextEditingController();
+  final TextEditingController counterController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   Timer? _micTimer;
 
@@ -74,9 +77,7 @@ class CartController extends GetxController {
           break;
         }
       }
-      print("get here $isFound");
       if (!isFound) {
-        print("get here");
         selectedProducts.add(product);
       }
     }
@@ -113,9 +114,7 @@ class CartController extends GetxController {
 
   void checkQrCode(QRViewController qrController) {
     qrController.scannedDataStream.listen((Barcode event) {
-      print("get here");
       if (event.code != null) {
-        print("get code");
         searchForElements(event.code!, true);
         if (searchedProducts.isNotEmpty) {
           searchController.text = searchedProducts.first.name;
@@ -130,6 +129,7 @@ class CartController extends GetxController {
 
   Future<void> micFun() async {
     isSearching.value = true;
+    mainController.isShowBottomSheet.value = false;
     try {
       if (!isListing.value) {
         final bool isAvailableToListen = await _speechToText.initialize();
@@ -161,15 +161,14 @@ class CartController extends GetxController {
         "جهازك لا يدعم تسجيل الصوت",
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFF3F9DDE),
+        backgroundColor: primaryColor,
         margin: const EdgeInsets.all(10),
       );
-    } catch (e) {
-      print(e);
     }
   }
 
   void backFromSearching() {
+    mainController.isShowBottomSheet.value = true;
     isSearching.value = false;
     searchController.clear();
     searchedProducts.clear();

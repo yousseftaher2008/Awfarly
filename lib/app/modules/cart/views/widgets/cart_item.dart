@@ -1,7 +1,8 @@
-// TODO: check the text limit and the mediaQurey
+import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/modules/cart/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,15 @@ class CartItem extends GetView<CartController> {
   final bool asSearchProduct;
   @override
   Widget build(BuildContext context) {
+    final TextEditingController counterController = TextEditingController(
+      text: product.count.value.toString(),
+    );
+    void onCounterSave([String? value]) {
+      if (counterController.text == "") {
+        counterController.text = product.count.value.toString();
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: asSearchProduct ? null : BorderRadius.circular(23.r),
@@ -19,10 +29,10 @@ class CartItem extends GetView<CartController> {
             ? const Border(
                 bottom: BorderSide(color: Color(0xFFDDDDDD), width: 2))
             : Border.all(
-                color: const Color(0xffdddddd),
+                color: const Color(0xFFDDDDDD),
                 width: 1,
               ),
-        color: const Color(0xffffffff),
+        color: const Color(0xFFFFFFFF),
         boxShadow: asSearchProduct
             ? null
             : [
@@ -78,9 +88,10 @@ class CartItem extends GetView<CartController> {
                     "السعر يتراوح بين",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w300,
-                        color: const Color(0xFF7E828E)),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w300,
+                      color: secondaryTextColor,
+                    ),
                   ),
                 ),
               Row(
@@ -97,9 +108,10 @@ class CartItem extends GetView<CartController> {
                   Text(
                     "ر.س",
                     style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w300,
-                        color: const Color(0xFF7E828E)),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w300,
+                      color: secondaryTextColor,
+                    ),
                   ),
                 ],
               )
@@ -123,25 +135,62 @@ class CartItem extends GetView<CartController> {
                       CircleAvatar(
                         backgroundColor: const Color(0xFFF3F7FC),
                         child: IconButton(
-                            onPressed: () =>
-                                controller.addProduct(id: product.id),
+                            onPressed: () {
+                              controller.addProduct(id: product.id);
+                              counterController.text =
+                                  product.count.value.toString();
+                            },
                             icon: const Icon(Icons.add)),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Obx(
-                          () => Text(
-                            product.count.value.toString(),
+                        padding: EdgeInsets.symmetric(horizontal: 13.w),
+                        child: SizedBox(
+                          width: 20.w,
+                          child: TextFormField(
+                            controller: counterController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 2,
+                            cursorWidth: 1,
+                            onChanged: (value) {
+                              if (value.isEmpty) return;
+                              if (value[0] == "0") {
+                                counterController.text =
+                                    value.replaceFirst("0", "");
+                                return;
+                              }
+                              product.count.value =
+                                  int.tryParse(counterController.text) ??
+                                      product.count.value;
+                            },
+                            onSaved: onCounterSave,
+                            onFieldSubmitted: onCounterSave,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp("[0-9]"),
+                              ),
+                            ],
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              counterText: "",
+                            ),
                             style: TextStyle(
-                                fontSize: 18.sp, fontWeight: FontWeight.w400),
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
                       CircleAvatar(
                         backgroundColor: const Color(0xFFF3F7FC),
                         child: IconButton(
-                          onPressed: () =>
-                              controller.decreaseProductCount(product.id),
+                          onPressed: () {
+                            controller.decreaseProductCount(product.id);
+                            counterController.text =
+                                product.count.value.toString();
+                          },
                           icon: const Icon(Icons.remove),
                         ),
                       ),
@@ -156,7 +205,7 @@ class CartItem extends GetView<CartController> {
                   topRight: Radius.circular(2.r),
                   bottomRight: Radius.circular(2.r)),
               child: ColoredBox(
-                color: const Color(0xFF9FCEEF),
+                color: primaryColorLightThree,
                 child: SizedBox(
                   width: 5.w,
                   height: 50.h,

@@ -1,3 +1,4 @@
+import 'package:awfarly/app/modules/cart/views/screens/best_receipt.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_app_bar.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/screen_dimensions.dart';
-import '../../../shared/app_bottom_sheet.dart';
 import '../controllers/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
@@ -46,8 +46,11 @@ class CartView extends GetView<CartController> {
                                 : Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: GestureDetector(
-                                      onTap: () =>
-                                          controller.isSearching.value = true,
+                                      onTap: () {
+                                        controller.isSearching.value = true;
+                                        controller.mainController
+                                            .isShowBottomSheet.value = false;
+                                      },
                                       child: Text(
                                         "اضف منتج جديد",
                                         style: TextStyle(
@@ -95,7 +98,12 @@ class CartView extends GetView<CartController> {
                           ),
                           onPressed: controller.selectedProducts.isEmpty
                               ? null
-                              : () {},
+                              : () {
+                                  // TODO: go to best receipt screen
+                                  controller.mainController.isShowBottomSheet
+                                      .value = false;
+                                  Get.to(() => const BestReceipt());
+                                },
                           child: Text(
                             "عرض افضل فاتورة",
                             style: TextStyle(
@@ -111,11 +119,11 @@ class CartView extends GetView<CartController> {
           ),
         ),
       ),
-      bottomSheet: Obx(
-        () => controller.isSearching.value
-            ? const SizedBox()
-            : const AppBottomSheet(),
-      ),
+      // bottomSheet: Obx(
+      //   () => controller.isSearching.value
+      //       ? const SizedBox()
+      //       : const AppBottomSheet(),
+      // ),
     );
   }
 }

@@ -1,23 +1,20 @@
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
+import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
+import 'package:awfarly/app/routes/app_pages.dart';
 import 'package:awfarly/app/shared/icon_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../routes/app_pages.dart';
 import '../constants/styles/colors.dart';
 
-enum Page { home, orders, cart, wallet, favorite }
-
-Rx<Page> currentPage = Page.home.obs;
-
-class AppBottomSheet extends StatelessWidget {
+class AppBottomSheet extends GetView<MainController> {
   const AppBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     final CartController cartController = Get.find<CartController>();
-    // final CartController _favoritesController = Get.find<FavoritesController>();
+    // final FavoritesController _favoritesController = Get.find<FavoritesController>();
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xffffffff),
@@ -42,9 +39,8 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                if (currentPage.value != Page.home) {
-                  currentPage.value = Page.home;
-                  Get.offAllNamed(Routes.HOME);
+                if (AppPages.currentPage.value != AppPagesEnum.home) {
+                  AppPages.currentPage.value = AppPagesEnum.home;
                 }
               },
               child: Obx(
@@ -53,7 +49,7 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: currentPage.value == Page.home
+                      child: AppPages.currentPage.value == AppPagesEnum.home
                           ? SvgPicture.asset("assets/icons/home_filled.svg")
                           : SvgPicture.asset("assets/icons/home.svg"),
                     ),
@@ -62,8 +58,8 @@ class AppBottomSheet extends StatelessWidget {
                         "الرئيسية",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.home
-                              ? enableIconColor
+                          color: AppPages.currentPage.value == AppPagesEnum.home
+                              ? primaryColor
                               : null,
                         ),
                       ),
@@ -77,10 +73,8 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                if (currentPage.value != Page.orders) {
-                  currentPage.value = Page.orders;
-                  // Get.OffAllNamed(Routes.ORDERS);
-                  Get.offAllNamed(Routes.HOME);
+                if (AppPages.currentPage.value != AppPagesEnum.orders) {
+                  AppPages.currentPage.value = AppPagesEnum.orders;
                 }
               },
               child: Obx(
@@ -89,7 +83,7 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: currentPage.value == Page.orders
+                      child: AppPages.currentPage.value == AppPagesEnum.orders
                           ? SvgPicture.asset("assets/icons/order_filled.svg")
                           : SvgPicture.asset("assets/icons/order.svg"),
                     ),
@@ -99,9 +93,10 @@ class AppBottomSheet extends StatelessWidget {
                         "مشترياتي",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.orders
-                              ? enableIconColor
-                              : null,
+                          color:
+                              AppPages.currentPage.value == AppPagesEnum.orders
+                                  ? primaryColor
+                                  : null,
                         ),
                       ),
                     ),
@@ -114,9 +109,8 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                if (currentPage.value != Page.cart) {
-                  currentPage.value = Page.cart;
-                  Get.offAllNamed(Routes.CART);
+                if (AppPages.currentPage.value != AppPagesEnum.cart) {
+                  AppPages.currentPage.value = AppPagesEnum.cart;
                 }
               },
               child: Column(
@@ -125,16 +119,16 @@ class AppBottomSheet extends StatelessWidget {
                   Obx(
                     () => IconBadge(
                       icon: Icon(
-                        currentPage.value == Page.cart
+                        AppPages.currentPage.value == AppPagesEnum.cart
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_outlined,
-                        color: currentPage.value == Page.cart
-                            ? enableIconColor
-                            : secondaryIconColor,
+                        color: AppPages.currentPage.value == AppPagesEnum.cart
+                            ? primaryColor
+                            : disableColor,
                         size: 25,
                       ),
                       value: "${cartController.selectedProducts.length}",
-                      color: enableIconColor,
+                      color: primaryColor,
                     ),
                   ),
                   const Spacer(),
@@ -144,8 +138,8 @@ class AppBottomSheet extends StatelessWidget {
                         "عربة التسوق",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.cart
-                              ? enableIconColor
+                          color: AppPages.currentPage.value == AppPagesEnum.cart
+                              ? primaryColor
                               : null,
                         ),
                       ),
@@ -159,10 +153,8 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                if (currentPage.value != Page.wallet) {
-                  currentPage.value = Page.wallet;
-                  Get.offAllNamed(Routes.HOME);
-                  // Get.OffAllNamed(Routes.WALLET);
+                if (AppPages.currentPage.value != AppPagesEnum.wallet) {
+                  AppPages.currentPage.value = AppPagesEnum.wallet;
                 }
               },
               child: Obx(
@@ -172,7 +164,7 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: currentPage.value == Page.wallet
+                      child: AppPages.currentPage.value == AppPagesEnum.wallet
                           ? SvgPicture.asset("assets/icons/wallet_filled.svg")
                           : SvgPicture.asset("assets/icons/wallet.svg"),
                     ),
@@ -182,9 +174,10 @@ class AppBottomSheet extends StatelessWidget {
                         "محفظتي",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.wallet
-                              ? enableIconColor
-                              : null,
+                          color:
+                              AppPages.currentPage.value == AppPagesEnum.wallet
+                                  ? primaryColor
+                                  : null,
                         ),
                       ),
                     ),
@@ -197,10 +190,8 @@ class AppBottomSheet extends StatelessWidget {
             height: 75,
             child: GestureDetector(
               onTap: () {
-                if (currentPage.value != Page.favorite) {
-                  currentPage.value = Page.favorite;
-                  Get.offAllNamed(Routes.HOME);
-                  // Get.OffAllNamed(Routes.FAVORITES);
+                if (AppPages.currentPage.value != AppPagesEnum.favorite) {
+                  AppPages.currentPage.value = AppPagesEnum.favorite;
                 }
               },
               child: Obx(
@@ -209,12 +200,13 @@ class AppBottomSheet extends StatelessWidget {
                   children: [
                     IconBadge(
                       icon: Icon(
-                        currentPage.value == Page.favorite
+                        AppPages.currentPage.value == AppPagesEnum.favorite
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: currentPage.value == Page.favorite
-                            ? enableIconColor
-                            : secondaryIconColor,
+                        color:
+                            AppPages.currentPage.value == AppPagesEnum.favorite
+                                ? primaryColor
+                                : disableColor,
                         size: 25,
                       ),
                       value: "0",
@@ -226,8 +218,9 @@ class AppBottomSheet extends StatelessWidget {
                         "المفضلة",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: currentPage.value == Page.favorite
-                              ? enableIconColor
+                          color: AppPages.currentPage.value ==
+                                  AppPagesEnum.favorite
+                              ? primaryColor
                               : null,
                         ),
                       ),

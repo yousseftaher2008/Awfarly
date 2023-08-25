@@ -44,11 +44,12 @@ class CartFirstAppBar extends GetView<CartController> {
                   Radius.circular(10.r),
                 ),
                 child: ColoredBox(
-                  color: const Color(0xFFF8F8F8),
+                  color: const Color(0xFFFFFFFF),
                   child: TextFormField(
                     controller: controller.searchController,
                     onTap: () {
                       controller.isSearching.value = true;
+                      controller.mainController.isShowBottomSheet.value = false;
                     },
                     onChanged: controller.searchForElements,
                     decoration: InputDecoration(
@@ -65,10 +66,13 @@ class CartFirstAppBar extends GetView<CartController> {
                         onPressed: () {
                           if (controller.isSearching.value == false) {
                             controller.isSearching.value = true;
+                            controller.mainController.isShowBottomSheet.value =
+                                false;
                           } else {
                             FocusScope.of(context).unfocus();
                             controller.searchForElements(
-                                controller.searchController.text);
+                              controller.searchController.text,
+                            );
                           }
                         },
                         icon: SvgPicture.asset("assets/icons/search.svg"),
@@ -101,6 +105,7 @@ class CartFirstAppBar extends GetView<CartController> {
               onPressed: () async {
                 Get.to(() => const QrCodeScreen());
                 controller.isSearching.value = true;
+                controller.mainController.isShowBottomSheet.value = false;
               },
               icon: SvgPicture.asset(
                 "assets/icons/qr_code.svg",
@@ -134,7 +139,7 @@ class CartFirstAppBar extends GetView<CartController> {
               child: searchBarRow,
             )
           : firstAppBar(
-              SizedBox(
+              child:SizedBox(
                 height: 150.h,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
