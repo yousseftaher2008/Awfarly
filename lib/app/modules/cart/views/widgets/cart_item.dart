@@ -1,4 +1,5 @@
 import 'package:awfarly/app/constants/styles/colors.dart';
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/modules/cart/models/product.dart';
 import 'package:flutter/material.dart';
@@ -55,12 +56,14 @@ class CartItem extends GetView<CartController> {
             padding: EdgeInsets.symmetric(horizontal: 15.0.w),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
-                height: 65.h,
-                width: 50.w,
-              ),
+              child: product.imageUrl == null
+                  ? const SizedBox()
+                  : Image.network(
+                      product.imageUrl!,
+                      fit: BoxFit.cover,
+                      height: 65.h,
+                      width: 50.w,
+                    ),
             ),
           ),
           Column(
@@ -69,9 +72,7 @@ class CartItem extends GetView<CartController> {
               FittedBox(
                 child: Text(
                   product.name,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                  ),
+                  style: h4RegularBlack,
                   textAlign: TextAlign.right,
                 ),
               ),
@@ -87,31 +88,20 @@ class CartItem extends GetView<CartController> {
                   child: Text(
                     "السعر يتراوح بين",
                     textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
-                      color: secondaryTextColor,
-                    ),
+                    style: h6Light,
                   ),
                 ),
               Row(
                 children: [
                   FittedBox(
                     child: Text(
-                      " ${product.priceTwo} - ${product.priceOne} ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16.sp,
-                      ),
+                      " ${product.maxPrice} - ${product.minPrice} ",
+                      style: h4BoldBlack.copyWith(fontWeight: FontWeight.w900),
                     ),
                   ),
                   Text(
                     "ر.س",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
-                      color: secondaryTextColor,
-                    ),
+                    style: h6Light,
                   ),
                 ],
               )
@@ -176,10 +166,7 @@ class CartItem extends GetView<CartController> {
                               disabledBorder: InputBorder.none,
                               counterText: "",
                             ),
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            style: h3RegularBlack,
                           ),
                         ),
                       ),

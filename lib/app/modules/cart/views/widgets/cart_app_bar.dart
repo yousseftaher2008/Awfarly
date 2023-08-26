@@ -1,4 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/views/screens/qr_code.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,17 +52,14 @@ class CartFirstAppBar extends GetView<CartController> {
                       controller.isSearching.value = true;
                       controller.mainController.isShowBottomSheet.value = false;
                     },
-                    onChanged: controller.searchForElements,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       hintText: "ابحث على ما تريد",
-                      hintStyle: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      hintStyle:
+                          h4RegularGrey.copyWith(fontWeight: FontWeight.w600),
                       prefixIcon: IconButton(
                         onPressed: () {
                           if (controller.isSearching.value == false) {
@@ -77,20 +75,17 @@ class CartFirstAppBar extends GetView<CartController> {
                         },
                         icon: SvgPicture.asset("assets/icons/search.svg"),
                       ),
-                      suffixIcon: Obx(
-                        () => AvatarGlow(
-                          endRadius: 15.r,
-                          animate: controller.isListing.value,
-                          duration: const Duration(milliseconds: 2000),
-                          glowColor: Colors.black,
-                          repeat: true,
-                          repeatPauseDuration:
-                              const Duration(milliseconds: 100),
-                          showTwoGlows: true,
-                          child: IconButton(
-                            onPressed: controller.micFun,
-                            icon: SvgPicture.asset("assets/icons/mic.svg"),
-                          ),
+                      suffixIcon: AvatarGlow(
+                        endRadius: 15.r,
+                        animate: controller.isListing.value,
+                        duration: const Duration(milliseconds: 2000),
+                        glowColor: Colors.black,
+                        repeat: true,
+                        repeatPauseDuration: const Duration(milliseconds: 100),
+                        showTwoGlows: true,
+                        child: IconButton(
+                          onPressed: controller.micFun,
+                          icon: SvgPicture.asset("assets/icons/mic.svg"),
                         ),
                       ),
                     ),
@@ -139,7 +134,7 @@ class CartFirstAppBar extends GetView<CartController> {
               child: searchBarRow,
             )
           : firstAppBar(
-              child:SizedBox(
+              child: SizedBox(
                 height: 150.h,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -163,20 +158,12 @@ class CartFirstAppBar extends GetView<CartController> {
                             padding: const EdgeInsets.all(8),
                             child: Text(
                               "عربة التسوق : ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: h3BoldWhite,
                             ),
                           ),
                           Text(
-                            "${controller.selectedProducts.length} منتج",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            "${controller.selectedProductsLen.value} منتج",
+                            style: h3RegularWhite,
                           ),
                         ],
                       ),

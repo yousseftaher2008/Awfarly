@@ -13,6 +13,7 @@ dependencies:
   flutter_icons_null_safety: ^1.1.0
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.7
+  http: ^1.1.0
   get: 4.6.5
   qr_code_scanner: ^1.0.1
   speech_to_text: ^6.3.0

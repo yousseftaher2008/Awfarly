@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:awfarly/app/constants/base_url.dart';
 import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -11,54 +14,36 @@ import 'package:speech_to_text/speech_to_text.dart';
 import '../models/product.dart';
 
 class CartController extends GetxController {
-  final RxList<Product> selectedProducts = [
+  final List<Product> selectedProducts = [
     Product(
-      id: "p1",
-      name: "first product",
-      description: "this is a very good product",
+      id: "3",
+      name: "hello",
       imageUrl:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fresh-hot-delicious-food-wallpaper.jpg",
-      priceOne: 39.99,
-      priceTwo: 49.99,
-    ),
-    Product(
-      id: "p2",
-      name: "second product",
-      description: "this is a very good product",
-      imageUrl:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fresh-hot-delicious-food-wallpaper.jpg",
-      priceOne: 39.99,
-      priceTwo: 49.99,
-    ),
-  ].obs;
-  final RxList<Product> products = [
-    Product(
-      id: "p1",
-      name: "first product",
-      description: "this is a very good product",
-      imageUrl:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fresh-hot-delicious-food-wallpaper.jpg",
-      priceOne: 39.99,
-      priceTwo: 49.99,
-    ),
-    Product(
-      id: "p2",
-      name: "second product",
-      description: "this is a very good product",
-      imageUrl:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fresh-hot-delicious-food-wallpaper.jpg",
-      priceOne: 39.99,
-      priceTwo: 49.99,
-    ),
-  ].obs;
-  final RxList<Product> searchedProducts = RxList();
+          "https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141353.jpg",
+      maxPrice: 199,
+      minPrice: 99,
+    )
+  ];
+  final RxInt selectedProductsLen = 0.obs;
+  final List<Product> products = [];
+  final RxInt productsLen = 0.obs;
+  final List<Product> searchedProducts = [];
+  final RxInt searchedProductsLen = 0.obs;
   final MainController mainController = Get.find<MainController>();
   final RxBool isSearching = false.obs;
   final RxBool isListing = false.obs;
   final TextEditingController searchController = TextEditingController();
   final TextEditingController counterController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
+  Future? lastRequest;
   Timer? _micTimer;
+  @override
+  void onInit() {
+    super.onInit();
+    productsLen.value = products.length;
+    searchedProductsLen.value = searchedProducts.length;
+    selectedProductsLen.value = selectedProducts.length;
+  }
 
   void addProduct({String? id, Product? product}) {
     if (id != null) {
@@ -79,6 +64,7 @@ class CartController extends GetxController {
       }
       if (!isFound) {
         selectedProducts.add(product);
+        selectedProductsLen.value++;
       }
     }
   }
@@ -93,36 +79,50 @@ class CartController extends GetxController {
 
   void deleteProduct(String id) {
     selectedProducts.removeWhere((Product element) => element.id == id);
+    selectedProductsLen.value--;
   }
 
   Future<void> getProducts() async {}
 
-  void searchForElements(String value, [bool searchById = false]) {
+  void searchForElements(String value) {
+    searchedProducts.clear();
     value = value.trim();
+    if (lastRequest != null) lastRequest!.ignore();
+    if (value == "") return;
 
-    if (value == "") {
-      searchedProducts.clear();
-      return;
+    Uri url = Uri.parse("$baseUrl/Products/GetAllProductsDropDown");
+    Map<String, String> headers = {
+      "Accept-Language": "application/json",
+      "name": value
+    };
+    try {
+      lastRequest = http.get(url, headers: headers).then((response) async {
+        print(response.body);
+        List? productData;
+        try {
+          productData = json.decode(response.body);
+        } catch (e) {
+          print(e);
+        }
+        if (productData != null && productData.isNotEmpty) {
+          for (final product in productData) {
+            searchedProducts.add(Product.fromJson(product));
+          }
+          searchedProductsLen.value = searchedProducts.length;
+        }
+        print(productData);
+      });
+    } catch (e) {
+      print(e);
     }
-    searchedProducts.value = products
-        .where(
-          (Product product) =>
-              searchById ? product.id == value : product.name.contains(value),
-        )
-        .toList();
   }
 
   void checkQrCode(QRViewController qrController) {
     qrController.scannedDataStream.listen((Barcode event) {
       if (event.code != null) {
-        searchForElements(event.code!, true);
-        if (searchedProducts.isNotEmpty) {
-          searchController.text = searchedProducts.first.name;
-          Get.back();
-        } else {
-          searchController.text = event.code!;
-          Get.back();
-        }
+        searchForElements(event.code!);
+        searchController.text = event.code!;
+        Get.back();
       }
     });
   }
@@ -134,7 +134,7 @@ class CartController extends GetxController {
       if (!isListing.value) {
         final bool isAvailableToListen = await _speechToText.initialize();
         if (isAvailableToListen) {
-          _micTimer = Timer(const Duration(seconds: 3), () {
+          _micTimer = Timer(const Duration(seconds: 5), () {
             isListing.value = false;
             _speechToText.stop();
           });
@@ -142,12 +142,11 @@ class CartController extends GetxController {
           _speechToText.listen(
             onResult: (result) {
               _micTimer?.cancel();
-              _micTimer = Timer(const Duration(seconds: 3), () {
+              _micTimer = Timer(const Duration(seconds: 5), () {
                 isListing.value = false;
                 _speechToText.stop();
               });
               searchController.text = result.recognizedWords;
-              searchForElements(searchController.text);
             },
           );
         }

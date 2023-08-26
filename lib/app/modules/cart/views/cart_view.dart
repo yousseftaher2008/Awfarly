@@ -1,3 +1,5 @@
+import 'package:awfarly/app/constants/styles/button_styles.dart';
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/views/screens/best_receipt.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_app_bar.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
@@ -21,48 +23,40 @@ class CartView extends GetView<CartController> {
             constraints: BoxConstraints(
               minHeight: pageHeight(),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const CartFirstAppBar(),
-                SizedBox(
-                  height: pageHeight() - (220.h) - 150.h,
-                  child: Obx(
-                    () => ListView.builder(
+            child: Obx(
+              () => Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const CartFirstAppBar(),
+                  SizedBox(
+                    height: pageHeight() - (220.h) - 150.h,
+                    child: ListView.builder(
                       padding:
                           EdgeInsets.all(controller.isSearching.value ? 0 : 10),
                       shrinkWrap: true,
                       itemCount: controller.isSearching.value
-                          ? (controller.searchedProducts.length)
-                          : (controller.selectedProducts.length + 1),
+                          ? (controller.searchedProductsLen.value)
+                          : (controller.selectedProductsLen.value + 1),
                       itemBuilder: (_, index) {
-                        if (index == controller.selectedProducts.length &&
+                        if (index == controller.selectedProductsLen.value &&
                             !controller.isSearching.value) {
-                          return Obx(
-                            () => controller.isSearching.value ||
-                                    controller.selectedProducts.isEmpty
-                                ? const SizedBox()
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.isSearching.value = true;
-                                        controller.mainController
-                                            .isShowBottomSheet.value = false;
-                                      },
-                                      child: Text(
-                                        "اضف منتج جديد",
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
+                          return controller.selectedProducts.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.isSearching.value = true;
+                                      controller.mainController
+                                          .isShowBottomSheet.value = false;
+                                    },
+                                    child: Text(
+                                      "اضف منتج جديد",
+                                      style: h3RegularPrimary,
                                     ),
                                   ),
-                          );
+                                );
                         }
                         CartItem cartItem = CartItem(
                           controller.isSearching.value
@@ -86,44 +80,32 @@ class CartView extends GetView<CartController> {
                       },
                     ),
                   ),
-                ),
-                Obx(
-                  () => !controller.isSearching.value
-                      ? ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size(pageWidth() - 50.w, 50.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                          ),
-                          onPressed: controller.selectedProducts.isEmpty
-                              ? null
-                              : () {
-                                  // TODO: go to best receipt screen
+                  if (!controller.isSearching.value)
+                    ElevatedButton(
+                      style: mainButtonStyle,
+                      onPressed: controller.selectedProducts.isEmpty
+                          ? null
+                          : () {
+                              controller.mainController.isShowBottomSheet
+                                  .value = false;
+                              Get.to(() => const BestReceipt())?.then(
+                                (_) {
                                   controller.mainController.isShowBottomSheet
-                                      .value = false;
-                                  Get.to(() => const BestReceipt());
+                                      .value = true;
                                 },
-                          child: Text(
-                            "عرض افضل فاتورة",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                )
-              ],
+                              );
+                            },
+                      child: Text(
+                        "عرض افضل فاتورة",
+                        style: h4BoldWhite,
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ),
       ),
-      // bottomSheet: Obx(
-      //   () => controller.isSearching.value
-      //       ? const SizedBox()
-      //       : const AppBottomSheet(),
-      // ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,11 +9,11 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Text(
           'WELL ADDED LETTER',
-          style: TextStyle(fontSize: 20),
+          style: h1Black,
         ),
       ),
     );

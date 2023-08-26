@@ -1,3 +1,4 @@
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
 import 'package:awfarly/app/routes/app_pages.dart';
@@ -15,6 +16,13 @@ class AppBottomSheet extends GetView<MainController> {
   Widget build(BuildContext context) {
     final CartController cartController = Get.find<CartController>();
     // final FavoritesController _favoritesController = Get.find<FavoritesController>();
+    TextStyle defaultStyle(AppPagesEnum page) {
+      return h5Bold.copyWith(
+        color:
+            AppPages.currentPage.value == page ? primaryColor : secondaryColor,
+      );
+    }
+
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xffffffff),
@@ -31,20 +39,20 @@ class AppBottomSheet extends GetView<MainController> {
         ],
       ),
       width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                if (AppPages.currentPage.value != AppPagesEnum.home) {
-                  AppPages.currentPage.value = AppPagesEnum.home;
-                }
-              },
-              child: Obx(
-                () => Column(
+      child: Obx(
+        () => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SizedBox(
+              height: 75,
+              child: GestureDetector(
+                onTap: () {
+                  if (AppPages.currentPage.value != AppPagesEnum.home) {
+                    AppPages.currentPage.value = AppPagesEnum.home;
+                  }
+                },
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
@@ -56,29 +64,22 @@ class AppBottomSheet extends GetView<MainController> {
                     FittedBox(
                       child: Text(
                         "الرئيسية",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppPages.currentPage.value == AppPagesEnum.home
-                              ? primaryColor
-                              : null,
-                        ),
+                        style: defaultStyle(AppPagesEnum.home),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                if (AppPages.currentPage.value != AppPagesEnum.orders) {
-                  AppPages.currentPage.value = AppPagesEnum.orders;
-                }
-              },
-              child: Obx(
-                () => Column(
+            SizedBox(
+              height: 75,
+              child: GestureDetector(
+                onTap: () {
+                  if (AppPages.currentPage.value != AppPagesEnum.orders) {
+                    AppPages.currentPage.value = AppPagesEnum.orders;
+                  }
+                },
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
@@ -91,74 +92,57 @@ class AppBottomSheet extends GetView<MainController> {
                     FittedBox(
                       child: Text(
                         "مشترياتي",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color:
-                              AppPages.currentPage.value == AppPagesEnum.orders
-                                  ? primaryColor
-                                  : null,
-                        ),
+                        style: defaultStyle(AppPagesEnum.orders),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                if (AppPages.currentPage.value != AppPagesEnum.cart) {
-                  AppPages.currentPage.value = AppPagesEnum.cart;
-                }
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => IconBadge(
+            SizedBox(
+              height: 75,
+              child: GestureDetector(
+                onTap: () {
+                  if (AppPages.currentPage.value != AppPagesEnum.cart) {
+                    AppPages.currentPage.value = AppPagesEnum.cart;
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconBadge(
                       icon: Icon(
                         AppPages.currentPage.value == AppPagesEnum.cart
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_outlined,
                         color: AppPages.currentPage.value == AppPagesEnum.cart
                             ? primaryColor
-                            : disableColor,
+                            : secondaryColor,
                         size: 25,
                       ),
-                      value: "${cartController.selectedProducts.length}",
+                      value: "${cartController.selectedProductsLen.value}",
                       color: primaryColor,
                     ),
-                  ),
-                  const Spacer(),
-                  Obx(
-                    () => FittedBox(
+                    const Spacer(),
+                    FittedBox(
                       child: Text(
                         "عربة التسوق",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppPages.currentPage.value == AppPagesEnum.cart
-                              ? primaryColor
-                              : null,
-                        ),
+                        style: defaultStyle(AppPagesEnum.cart),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                if (AppPages.currentPage.value != AppPagesEnum.wallet) {
-                  AppPages.currentPage.value = AppPagesEnum.wallet;
-                }
-              },
-              child: Obx(
-                () => Column(
+            SizedBox(
+              height: 75,
+              child: GestureDetector(
+                onTap: () {
+                  if (AppPages.currentPage.value != AppPagesEnum.wallet) {
+                    AppPages.currentPage.value = AppPagesEnum.wallet;
+                  }
+                },
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -172,30 +156,22 @@ class AppBottomSheet extends GetView<MainController> {
                     FittedBox(
                       child: Text(
                         "محفظتي",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color:
-                              AppPages.currentPage.value == AppPagesEnum.wallet
-                                  ? primaryColor
-                                  : null,
-                        ),
+                        style: defaultStyle(AppPagesEnum.wallet),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 75,
-            child: GestureDetector(
-              onTap: () {
-                if (AppPages.currentPage.value != AppPagesEnum.favorite) {
-                  AppPages.currentPage.value = AppPagesEnum.favorite;
-                }
-              },
-              child: Obx(
-                () => Column(
+            SizedBox(
+              height: 75,
+              child: GestureDetector(
+                onTap: () {
+                  if (AppPages.currentPage.value != AppPagesEnum.favorite) {
+                    AppPages.currentPage.value = AppPagesEnum.favorite;
+                  }
+                },
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconBadge(
@@ -206,7 +182,7 @@ class AppBottomSheet extends GetView<MainController> {
                         color:
                             AppPages.currentPage.value == AppPagesEnum.favorite
                                 ? primaryColor
-                                : disableColor,
+                                : secondaryColor,
                         size: 25,
                       ),
                       value: "0",
@@ -216,21 +192,15 @@ class AppBottomSheet extends GetView<MainController> {
                     FittedBox(
                       child: Text(
                         "المفضلة",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppPages.currentPage.value ==
-                                  AppPagesEnum.favorite
-                              ? primaryColor
-                              : null,
-                        ),
+                        style: defaultStyle(AppPagesEnum.favorite),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

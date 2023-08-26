@@ -1,3 +1,4 @@
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class IconBadge extends StatelessWidget {
@@ -35,9 +36,7 @@ class IconBadge extends StatelessWidget {
                 child: Text(
                   value.toString(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: h5RegularWhite,
                 ),
               ),
             ),

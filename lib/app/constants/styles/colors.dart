@@ -13,8 +13,10 @@ const Color primaryColorDarkTwo = Color(0xFF104D77);
 const Color primaryColorDarkThree = Color(0xFF0A436B);
 const Color primaryColorDarkFour = Color(0xFF073E64);
 
-const Color secondaryTextColor = Color(0xFF7E828E);
-const Color disableColor = Color(0xFF9E9E9E);
+const Color secondaryColor = Color(0xFF7E828E);
+const Color successColor = Color(0xFF3EA54F);
+
+const Color dangerColor = Color(0XFFBE2327);
 const List<Color> appBarBackgroundColors = <Color>[
   Color(0xFF073D63),
   Color(0xFF0A436A),
