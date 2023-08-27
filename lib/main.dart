@@ -1,3 +1,4 @@
+// TODO: add the responsive to the values (.h, .w, .sp, .r)
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,7 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // status bar color
+      statusBarColor: Colors.transparent,
     ),
   );
   SystemChrome.setPreferredOrientations([

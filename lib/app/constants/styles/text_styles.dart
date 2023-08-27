@@ -1,5 +1,3 @@
-// ignore_for_file: unused_element
-
 import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +37,7 @@ TextStyle h3RegularWhite = _h3Size.merge(_whiteColor);
 //? h3 bold
 TextStyle h3BoldGrey = _boldWeight.merge(_h3Size).merge(_secondaryColor);
 TextStyle h3BoldWhite = _boldWeight.merge(_h3Size).merge(_whiteColor);
+TextStyle h3BoldRed = _boldWeight.merge(_h3Size).copyWith(color: dangerColor);
 TextStyle h3BoldBlack = _boldWeight.merge(_h3Size).merge(_blackColor);
 
 //? h4 regular

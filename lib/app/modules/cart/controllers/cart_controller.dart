@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:awfarly/app/constants/base_url.dart';
 import 'package:awfarly/app/constants/styles/colors.dart';
+import 'package:awfarly/app/modules/cart/models/receipt.dart';
 import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,29 +15,24 @@ import 'package:speech_to_text/speech_to_text.dart';
 import '../models/product.dart';
 
 class CartController extends GetxController {
-  final List<Product> selectedProducts = [
-    Product(
-      id: "3",
-      name: "hello",
-      imageUrl:
-          "https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141353.jpg",
-      maxPrice: 199,
-      minPrice: 99,
-    )
-  ];
-  final RxInt selectedProductsLen = 0.obs;
-  final List<Product> products = [];
-  final RxInt productsLen = 0.obs;
-  final List<Product> searchedProducts = [];
-  final RxInt searchedProductsLen = 0.obs;
+  final List<Product> selectedProducts = [],
+      products = [],
+      searchedProducts = [];
+
+  final RxInt selectedProductsLen = 0.obs,
+      productsLen = 0.obs,
+      searchedProductsLen = 0.obs;
   final MainController mainController = Get.find<MainController>();
-  final RxBool isSearching = false.obs;
-  final RxBool isListing = false.obs;
-  final TextEditingController searchController = TextEditingController();
-  final TextEditingController counterController = TextEditingController();
+  final RxBool isSearching = false.obs,
+      isListing = false.obs,
+      isGettingSearched = false.obs,
+      isGettingBestReceipt = false.obs;
+  final TextEditingController searchController = TextEditingController(),
+      counterController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   Future? lastRequest;
   Timer? _micTimer;
+  Receipt? receipt;
   @override
   void onInit() {
     super.onInit();
@@ -86,34 +82,33 @@ class CartController extends GetxController {
 
   void searchForElements(String value) {
     searchedProducts.clear();
+    searchedProductsLen.value = 0;
     value = value.trim();
     if (lastRequest != null) lastRequest!.ignore();
     if (value == "") return;
 
-    Uri url = Uri.parse("$baseUrl/Products/GetAllProductsDropDown");
+    isGettingSearched.value = true;
+    Uri url = Uri.parse("$baseApiUrl/Products/GetAllProducts");
     Map<String, String> headers = {
       "Accept-Language": "application/json",
       "name": value
     };
     try {
-      lastRequest = http.get(url, headers: headers).then((response) async {
-        print(response.body);
+      lastRequest = http.get(url, headers: headers);
+      lastRequest!.then((response) async {
         List? productData;
-        try {
-          productData = json.decode(response.body);
-        } catch (e) {
-          print(e);
-        }
+        productData = json.decode(response.body);
         if (productData != null && productData.isNotEmpty) {
           for (final product in productData) {
             searchedProducts.add(Product.fromJson(product));
           }
           searchedProductsLen.value = searchedProducts.length;
         }
-        print(productData);
+        isGettingSearched.value = false;
       });
     } catch (e) {
-      print(e);
+      isGettingSearched.value = false;
+      return;
     }
   }
 
@@ -171,8 +166,37 @@ class CartController extends GetxController {
     isSearching.value = false;
     searchController.clear();
     searchedProducts.clear();
+    searchedProductsLen.value = 0;
     isListing.value = false;
     _speechToText.stop();
     _micTimer?.cancel();
+  }
+
+  Future<void> getBestReceipt() async {
+    try {
+      isGettingBestReceipt.value = true;
+      Uri url = Uri.parse("$baseApiUrl/Cart/CheckCart");
+      Map<String, String> headers = {
+        "Accept-Language": "application/json",
+      };
+      List<Map> productList = [];
+      for (final product in selectedProducts) {
+        productList
+            .add({"productId": product.id, "quantity": product.count.value});
+      }
+
+      final String responseBody = json.encode(productList);
+
+      final response =
+          await http.post(url, body: responseBody, headers: headers);
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        receipt = Receipt.fromJson(responseData);
+      }
+      isGettingBestReceipt.value = false;
+    } catch (e) {
+      isGettingBestReceipt.value = false;
+    }
+    isGettingBestReceipt.value = false;
   }
 }

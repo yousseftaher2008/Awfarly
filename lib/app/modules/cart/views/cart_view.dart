@@ -30,55 +30,65 @@ class CartView extends GetView<CartController> {
                 children: [
                   const CartFirstAppBar(),
                   SizedBox(
-                    height: pageHeight() - (220.h) - 150.h,
-                    child: ListView.builder(
-                      padding:
-                          EdgeInsets.all(controller.isSearching.value ? 0 : 10),
-                      shrinkWrap: true,
-                      itemCount: controller.isSearching.value
-                          ? (controller.searchedProductsLen.value)
-                          : (controller.selectedProductsLen.value + 1),
-                      itemBuilder: (_, index) {
-                        if (index == controller.selectedProductsLen.value &&
-                            !controller.isSearching.value) {
-                          return controller.selectedProducts.isEmpty
-                              ? const SizedBox()
-                              : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      controller.isSearching.value = true;
-                                      controller.mainController
-                                          .isShowBottomSheet.value = false;
-                                    },
-                                    child: Text(
-                                      "اضف منتج جديد",
-                                      style: h3RegularPrimary,
-                                    ),
-                                  ),
-                                );
-                        }
-                        CartItem cartItem = CartItem(
-                          controller.isSearching.value
-                              ? controller.searchedProducts[index]
-                              : controller.selectedProducts[index],
-                          asSearchProduct: controller.isSearching.value,
-                        );
-                        if (controller.isSearching.value) {
-                          return GestureDetector(
-                            onTap: () {
-                              controller.addProduct(
-                                product: controller.searchedProducts[index],
+                    height: pageHeight() -
+                        (controller.isSearching.value ? 0 : (220.h)) -
+                        150.h,
+                    child: controller.isGettingSearched.value
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            padding: EdgeInsets.all(
+                                controller.isSearching.value ? 0 : 10),
+                            shrinkWrap: true,
+                            itemCount: controller.isSearching.value
+                                ? (controller.searchedProductsLen.value)
+                                : (controller.selectedProductsLen.value + 1),
+                            itemBuilder: (_, index) {
+                              if (index ==
+                                      controller.selectedProductsLen.value &&
+                                  !controller.isSearching.value) {
+                                return controller.selectedProducts.isEmpty
+                                    ? const SizedBox()
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            controller.isSearching.value = true;
+                                            controller
+                                                .mainController
+                                                .isShowBottomSheet
+                                                .value = false;
+                                          },
+                                          child: Text(
+                                            "اضف منتج جديد",
+                                            style: h3RegularPrimary,
+                                          ),
+                                        ),
+                                      );
+                              }
+                              CartItem cartItem = CartItem(
+                                controller.isSearching.value
+                                    ? controller.searchedProducts[index]
+                                    : controller.selectedProducts[index],
+                                asSearchProduct: controller.isSearching.value,
                               );
-                              controller.backFromSearching();
+                              if (controller.isSearching.value) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.addProduct(
+                                      product:
+                                          controller.searchedProducts[index],
+                                    );
+                                    controller.backFromSearching();
+                                  },
+                                  child: cartItem,
+                                );
+                              } else {
+                                return cartItem;
+                              }
                             },
-                            child: cartItem,
-                          );
-                        } else {
-                          return cartItem;
-                        }
-                      },
-                    ),
+                          ),
                   ),
                   if (!controller.isSearching.value)
                     ElevatedButton(
@@ -88,6 +98,7 @@ class CartView extends GetView<CartController> {
                           : () {
                               controller.mainController.isShowBottomSheet
                                   .value = false;
+                              controller.getBestReceipt();
                               Get.to(() => const BestReceipt())?.then(
                                 (_) {
                                   controller.mainController.isShowBottomSheet

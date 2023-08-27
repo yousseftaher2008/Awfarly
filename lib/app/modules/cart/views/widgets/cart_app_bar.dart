@@ -52,6 +52,11 @@ class CartFirstAppBar extends GetView<CartController> {
                       controller.isSearching.value = true;
                       controller.mainController.isShowBottomSheet.value = false;
                     },
+                    onFieldSubmitted: (value) {
+                      if (!controller.isGettingSearched.value) {
+                        controller.searchForElements(value);
+                      }
+                    },
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -66,7 +71,7 @@ class CartFirstAppBar extends GetView<CartController> {
                             controller.isSearching.value = true;
                             controller.mainController.isShowBottomSheet.value =
                                 false;
-                          } else {
+                          } else if (!controller.isGettingSearched.value) {
                             FocusScope.of(context).unfocus();
                             controller.searchForElements(
                               controller.searchController.text,
@@ -155,7 +160,7 @@ class CartFirstAppBar extends GetView<CartController> {
                             size: 22.sp,
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: EdgeInsets.all(8.sp),
                             child: Text(
                               "عربة التسوق : ",
                               style: h3BoldWhite,
