@@ -2,6 +2,7 @@ import 'package:awfarly/app/constants/screen_dimensions.dart';
 import 'package:awfarly/app/constants/styles/button_styles.dart';
 import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
+import 'package:awfarly/app/modules/cart/views/screens/done.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +88,7 @@ class BestReceipt extends GetView<CartController> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                "${controller.receipt!.totalPrice}",
+                                "${controller.receipt?.totalPrice ?? 0}",
                                 style: h3BoldBlack,
                               ),
                               SizedBox(
@@ -141,7 +142,7 @@ class BestReceipt extends GetView<CartController> {
                         const Spacer(),
                         if (!controller.isGettingBestReceipt.value)
                           Text(
-                            "${controller.receipt!.totalPrice + 12.0}",
+                            "${(controller.receipt?.totalPrice ?? 0) + 12.0}",
                             style: h2Black,
                           ),
                         if (!controller.isGettingBestReceipt.value)
@@ -163,9 +164,12 @@ class BestReceipt extends GetView<CartController> {
                         style: mainButtonStyle,
                         onPressed: controller.isGettingBestReceipt.value
                             ? null
-                            : () {},
+                            : () {
+                                // TODO: Go to the done screen
+                                Get.off(() => const DoneScreen());
+                              },
                         child: Text(
-                          "استمرار",
+                          "شراء",
                           style: h4BoldWhite,
                         ),
                       ),

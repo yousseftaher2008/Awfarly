@@ -11,9 +11,14 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'WELL ADDED LETTER',
-          style: h1Black,
+        child: FittedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'WELL ADDED LETTER',
+              style: h1Black,
+            ),
+          ),
         ),
       ),
     );

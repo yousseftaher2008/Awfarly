@@ -27,7 +27,7 @@ class CartReceiptAppBar extends GetView<CartController> {
             ),
           ),
           Positioned(
-            top: 100.h,
+            bottom: 100.h,
             right: 16.w,
             child: Text(
               "الفاتورة",
@@ -35,7 +35,7 @@ class CartReceiptAppBar extends GetView<CartController> {
             ),
           ),
           Positioned(
-            top: 90.h,
+            bottom: 90.h,
             left: 16.w,
             child: TextButton(
               onPressed: () {
@@ -106,7 +106,7 @@ class CartReceiptAppBar extends GetView<CartController> {
               () => Container(
                 padding: EdgeInsets.all(10.sp),
                 width: pageWidth(),
-                height: 70.h,
+                constraints: BoxConstraints(minHeight: 70.h, maxHeight: 100.h),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
@@ -134,7 +134,7 @@ class CartReceiptAppBar extends GetView<CartController> {
                         ],
                       )
                     : Text(
-                        "تهانينا لقد حصلت على ارخص فاتورة من اوفر لي\nانت وفرت 30.00 ر.س",
+                        "تهانينا لقد حصلت على ارخص فاتورة من اوفر لي\n${(controller.receipt?.savedPrice ?? 0) != 0 ? "انت وفرت ${controller.receipt!.savedPrice} ر.س" : ""} عن طريق متجر ${controller.receipt!.storeName}",
                         style: h4RegularWhite,
                       ),
               ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:awfarly/app/constants/base_url.dart';
 import 'package:awfarly/app/constants/styles/colors.dart';
+import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/models/receipt.dart';
 import 'package:awfarly/app/modules/main/controllers/main_controller.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,9 @@ import 'package:speech_to_text/speech_to_text.dart';
 import '../models/product.dart';
 
 class CartController extends GetxController {
-  final List<Product> selectedProducts = [],
-      products = [],
-      searchedProducts = [];
+  final List<Product> selectedProducts = [], searchedProducts = [];
 
-  final RxInt selectedProductsLen = 0.obs,
-      productsLen = 0.obs,
-      searchedProductsLen = 0.obs;
+  final RxInt selectedProductsLen = 0.obs, searchedProductsLen = 0.obs;
   final MainController mainController = Get.find<MainController>();
   final RxBool isSearching = false.obs,
       isListing = false.obs,
@@ -36,7 +33,6 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    productsLen.value = products.length;
     searchedProductsLen.value = searchedProducts.length;
     selectedProductsLen.value = selectedProducts.length;
   }
@@ -81,22 +77,22 @@ class CartController extends GetxController {
   Future<void> getProducts() async {}
 
   void searchForElements(String value) {
-    searchedProducts.clear();
     searchedProductsLen.value = 0;
-    value = value.trim();
     if (lastRequest != null) lastRequest!.ignore();
     if (value == "") return;
 
     isGettingSearched.value = true;
-    Uri url = Uri.parse("$baseApiUrl/Products/GetAllProducts");
+    Uri url = Uri.parse("$baseApiUrl/Products/GetAllProducts?name=$value");
     Map<String, String> headers = {
       "Accept-Language": "application/json",
-      "name": value
     };
     try {
+      print("start");
       lastRequest = http.get(url, headers: headers);
       lastRequest!.then((response) async {
+        print(response.statusCode);
         List? productData;
+        searchedProducts.clear();
         productData = json.decode(response.body);
         if (productData != null && productData.isNotEmpty) {
           for (final product in productData) {
@@ -105,8 +101,12 @@ class CartController extends GetxController {
           searchedProductsLen.value = searchedProducts.length;
         }
         isGettingSearched.value = false;
+      }).catchError((e) {
+        // isGettingSearched.value = false;
+        print("is $e");
       });
     } catch (e) {
+      print(e);
       isGettingSearched.value = false;
       return;
     }
@@ -142,6 +142,7 @@ class CartController extends GetxController {
                 _speechToText.stop();
               });
               searchController.text = result.recognizedWords;
+              searchForElements(searchController.text);
             },
           );
         }
@@ -177,7 +178,8 @@ class CartController extends GetxController {
       isGettingBestReceipt.value = true;
       Uri url = Uri.parse("$baseApiUrl/Cart/CheckCart");
       Map<String, String> headers = {
-        "Accept-Language": "application/json",
+        "Content-Type": "application/json",
+        "Accept-language": "ar",
       };
       List<Map> productList = [];
       for (final product in selectedProducts) {
@@ -192,11 +194,46 @@ class CartController extends GetxController {
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         receipt = Receipt.fromJson(responseData);
+        isGettingBestReceipt.value = false;
+        return;
       }
-      isGettingBestReceipt.value = false;
+      if (response.statusCode == 404) {
+        await Get.defaultDialog(
+          title: "",
+          middleText: "كل هذه المنتجات غير موجودة في متجر واحد",
+          middleTextStyle: h4RegularPrimary,
+          barrierDismissible: false,
+          contentPadding: const EdgeInsets.all(15),
+          confirm: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                side: const BorderSide(color: primaryColor, width: 1)),
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text("العودة", style: h5RegularPrimary),
+          ),
+        );
+
+        Get.back();
+        // isGettingBestReceipt.value = false;
+        return;
+      }
     } catch (e) {
+      Get.back();
       isGettingBestReceipt.value = false;
     }
+    Get.back();
     isGettingBestReceipt.value = false;
+  }
+
+  void clearAll() {
+    selectedProducts.clear();
+    searchedProducts.clear();
+    _micTimer = null;
+    receipt = null;
+    mainController.isShowBottomSheet.value;
+    selectedProductsLen.value = 0;
+    searchedProductsLen.value = 0;
   }
 }

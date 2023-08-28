@@ -38,6 +38,8 @@ TextStyle h3RegularWhite = _h3Size.merge(_whiteColor);
 TextStyle h3BoldGrey = _boldWeight.merge(_h3Size).merge(_secondaryColor);
 TextStyle h3BoldWhite = _boldWeight.merge(_h3Size).merge(_whiteColor);
 TextStyle h3BoldRed = _boldWeight.merge(_h3Size).copyWith(color: dangerColor);
+TextStyle h3BoldPrimary =
+    _boldWeight.merge(_h3Size).copyWith(color: primaryColor);
 TextStyle h3BoldBlack = _boldWeight.merge(_h3Size).merge(_blackColor);
 
 //? h4 regular

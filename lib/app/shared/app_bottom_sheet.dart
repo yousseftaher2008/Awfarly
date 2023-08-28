@@ -52,22 +52,30 @@ class AppBottomSheet extends GetView<MainController> {
                     AppPages.currentPage.value = AppPagesEnum.home;
                   }
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: AppPages.currentPage.value == AppPagesEnum.home
-                          ? SvgPicture.asset("assets/icons/home_filled.svg")
-                          : SvgPicture.asset("assets/icons/home.svg"),
-                    ),
-                    FittedBox(
-                      child: Text(
-                        "الرئيسية",
-                        style: defaultStyle(AppPagesEnum.home),
+                child: SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: AppPages.currentPage.value == AppPagesEnum.home
+                            ? SvgPicture.asset("assets/icons/home_filled.svg")
+                            : SvgPicture.asset("assets/icons/home.svg"),
                       ),
-                    ),
-                  ],
+                      const Expanded(
+                        child: FittedBox(
+                          child: Text(" "),
+                        ),
+                      ),
+                      FittedBox(
+                        child: Text(
+                          "الرئيسية",
+                          style: defaultStyle(AppPagesEnum.home),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -88,7 +96,11 @@ class AppBottomSheet extends GetView<MainController> {
                           ? SvgPicture.asset("assets/icons/order_filled.svg")
                           : SvgPicture.asset("assets/icons/order.svg"),
                     ),
-                    const Spacer(),
+                    const Expanded(
+                      child: FittedBox(
+                        child: Text(" "),
+                      ),
+                    ),
                     FittedBox(
                       child: Text(
                         "مشترياتي",
@@ -123,7 +135,11 @@ class AppBottomSheet extends GetView<MainController> {
                       value: "${cartController.selectedProductsLen.value}",
                       color: primaryColor,
                     ),
-                    const Spacer(),
+                    const Expanded(
+                      child: FittedBox(
+                        child: Text(" "),
+                      ),
+                    ),
                     FittedBox(
                       child: Text(
                         "عربة التسوق",
@@ -152,7 +168,11 @@ class AppBottomSheet extends GetView<MainController> {
                           ? SvgPicture.asset("assets/icons/wallet_filled.svg")
                           : SvgPicture.asset("assets/icons/wallet.svg"),
                     ),
-                    const Spacer(),
+                    const Expanded(
+                      child: FittedBox(
+                        child: Text(" "),
+                      ),
+                    ),
                     FittedBox(
                       child: Text(
                         "محفظتي",
@@ -188,7 +208,11 @@ class AppBottomSheet extends GetView<MainController> {
                       value: "0",
                       color: const Color(0xFFF0BF41),
                     ),
-                    const Spacer(),
+                    const Expanded(
+                      child: FittedBox(
+                        child: Text(" "),
+                      ),
+                    ),
                     FittedBox(
                       child: Text(
                         "المفضلة",

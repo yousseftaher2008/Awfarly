@@ -48,6 +48,7 @@ class CartFirstAppBar extends GetView<CartController> {
                   color: const Color(0xFFFFFFFF),
                   child: TextFormField(
                     controller: controller.searchController,
+                    onChanged: controller.searchForElements,
                     onTap: () {
                       controller.isSearching.value = true;
                       controller.mainController.isShowBottomSheet.value = false;

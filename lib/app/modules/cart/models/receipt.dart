@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class Receipt {
   late String storeName, storeId;
-  late double totalPrice;
+  late double totalPrice, savedPrice = 0;
 
   Receipt.fromJson(Map json) {
     final CartController cartController = Get.find<CartController>();
@@ -17,6 +17,8 @@ class Receipt {
       for (int j = 0; j < cartController.selectedProducts.length; j++) {
         final Product cartProduct = cartController.selectedProducts[j];
         if (product["id"] == cartProduct.id) {
+          savedPrice += (cartProduct.maxPrice - product["price"].toDouble()) *
+              cartProduct.count.value;
           cartProduct.finalPrice = product["price"].toDouble();
           break;
         }
