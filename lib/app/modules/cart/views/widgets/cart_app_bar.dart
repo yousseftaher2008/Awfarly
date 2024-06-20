@@ -1,10 +1,11 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/views/screens/qr_code.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../../../shared/app_bars.dart';
 import '../../../../shared/users_image.dart';
@@ -47,6 +48,7 @@ class CartFirstAppBar extends GetView<CartController> {
                 child: ColoredBox(
                   color: const Color(0xFFFFFFFF),
                   child: TextFormField(
+                    cursorColor: primaryColor,
                     controller: controller.searchController,
                     onChanged: controller.searchForElements,
                     onTap: () {

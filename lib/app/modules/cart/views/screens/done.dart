@@ -77,7 +77,7 @@ class DoneScreen extends GetView<CartController> {
               },
               child: Text(
                 "استمر في التسوق",
-                style: h3BoldPrimary,
+                style: h3BoldWhite,
               ),
             ),
           ],

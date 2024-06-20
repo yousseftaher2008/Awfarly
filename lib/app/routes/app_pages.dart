@@ -17,7 +17,7 @@ class AppPages {
 
   static const String INITIAL = Routes.MAIN;
 
-  static final Rx<AppPagesEnum> currentPage = AppPagesEnum.home.obs;
+  static final Rx<AppPagesEnum> currentPage = AppPagesEnum.cart.obs;
   static final routes = [
     GetPage(
       name: _Paths.HOME,

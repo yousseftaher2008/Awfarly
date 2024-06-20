@@ -4,12 +4,13 @@ import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/modules/cart/views/screens/done.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
-import 'package:flutter/material.dart';
-
 import 'package:awfarly/app/modules/cart/views/widgets/cart_receipt_app_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+import '../../../../constants/styles/colors.dart';
 
 class BestReceipt extends GetView<CartController> {
   const BestReceipt({super.key});
@@ -48,7 +49,10 @@ class BestReceipt extends GetView<CartController> {
                                   controller.isSearching.value = true;
                                   controller.receipt = null;
                                 },
-                                child: const Text("اضافة منتج اخر"),
+                                child: const Text(
+                                  "اضافة منتج اخر",
+                                  style: TextStyle(color: primaryColor),
+                                ),
                               )
                             : const SizedBox(),
                       ),

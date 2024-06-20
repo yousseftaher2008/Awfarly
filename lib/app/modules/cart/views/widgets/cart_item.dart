@@ -159,13 +159,17 @@ class CartItem extends GetView<CartController> {
                                     counterController.text =
                                         product.count.value.toString();
                                   },
-                                  icon: const Icon(Icons.add)),
+                                  icon: const Icon(
+                                    Icons.add,
+                                    color: primaryColor,
+                                  )),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 13.w),
                               child: SizedBox(
                                 width: 20.w,
                                 child: TextFormField(
+                                  cursorColor: primaryColor,
                                   controller: counterController,
                                   keyboardType: TextInputType.number,
                                   maxLength: 2,
@@ -207,7 +211,10 @@ class CartItem extends GetView<CartController> {
                                   counterController.text =
                                       product.count.value.toString();
                                 },
-                                icon: const Icon(Icons.remove),
+                                icon: const Icon(
+                                  Icons.remove,
+                                  color: primaryColor,
+                                ),
                               ),
                             ),
                           ],

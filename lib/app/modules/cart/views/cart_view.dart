@@ -1,11 +1,11 @@
 import 'package:awfarly/app/constants/styles/button_styles.dart';
+import 'package:awfarly/app/constants/styles/colors.dart';
 import 'package:awfarly/app/constants/styles/text_styles.dart';
 import 'package:awfarly/app/modules/cart/views/screens/best_receipt.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_app_bar.dart';
 import 'package:awfarly/app/modules/cart/views/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 
 import '../../../constants/screen_dimensions.dart';
@@ -35,7 +35,8 @@ class CartView extends GetView<CartController> {
                         150.h,
                     child: controller.isGettingSearched.value
                         ? const Center(
-                            child: CircularProgressIndicator(),
+                            child:
+                                CircularProgressIndicator(color: primaryColor),
                           )
                         : ListView.builder(
                             padding: EdgeInsets.all(

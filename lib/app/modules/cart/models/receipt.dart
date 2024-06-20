@@ -1,10 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:awfarly/app/modules/cart/controllers/cart_controller.dart';
 import 'package:awfarly/app/modules/cart/models/product.dart';
 import 'package:get/get.dart';
 
 class Receipt {
   late String storeName, storeId;
-  late double totalPrice, savedPrice = 0;
+  late double totalPrice, savedPrice;
+  Receipt({
+    required this.storeName,
+    required this.totalPrice,
+    required this.savedPrice,
+  });
 
   Receipt.fromJson(Map json) {
     final CartController cartController = Get.find<CartController>();
