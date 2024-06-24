@@ -58,7 +58,9 @@ Follow these instructions to set up the project locally for development and test
 
 ## Note
 
-The project was not completed due to business circumstances, so you may find some problems in the search process, but the existing features are functional and available on the Play Store.
+The project was not completed due to business circumstances, so you may find some problems in the search process, but the existing features are functional and available on the Play Store, also you can still see the app by watching this [YouTube video](https://youtu.be/n9JRAvEFcPA).
+
+
 
 ## License
 
